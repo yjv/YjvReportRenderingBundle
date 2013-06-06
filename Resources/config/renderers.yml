@@ -1,7 +1,12 @@
 services:
     
+  yjv.report_rendering.renderer_type_registry_extension:
+    class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  
   yjv.report_rendering.renderer_type_registry:
     class: Yjv\ReportRendering\Factory\TypeRegistry
+    calls:
+      - [addExtension, ['@yjv.report_rendering.renderer_type_registry_extension']]
     
   yjv.report_rendering.renderer_type_resolver:
     class: Yjv\ReportRendering\Factory\TypeResolver
