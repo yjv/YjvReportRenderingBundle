@@ -1,0 +1,16 @@
+services:
+    
+  yjv.report_rendering.renderer_type_registry:
+    class: Yjv\ReportRendering\Factory\TypeRegistry
+    
+  yjv.report_rendering.renderer_type_resolver:
+    class: Yjv\ReportRendering\Factory\TypeResolver
+    arguments: ['@yjv.report_rendering.report_type_registry']
+  
+  yjv.report_rendering.renderer_factory:
+    class: Yjv\ReportRendering\Renderer\RendererFactory
+    arguments: 
+      - '@yjv.report_rendering.renderer_type_resolver'
+      - '@yjv.report_rendering.column_factory'
+      
+  #types
