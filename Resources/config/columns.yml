@@ -2,6 +2,7 @@ services:
   
   yjv.report_rendering.column_type_registry_extension:
     class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+    arguments: ['@service_container']
   
   yjv.report_rendering.column_type_registry:
     class: Yjv\ReportRendering\Factory\TypeRegistry
@@ -10,27 +11,27 @@ services:
     
   yjv.report_rendering.column_type_resolver:
     class: Yjv\ReportRendering\Factory\TypeResolver
-    arguments: ['@yjv.report_rendering.report_type_registry']
+    arguments: ['@yjv.report_rendering.column_type_registry']
   
   yjv.report_rendering.column_factory:
-    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory
+    class: Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory
     arguments: 
       - '@yjv.report_rendering.column_type_resolver'
       - '@yjv.report_rendering.data_transformer_registry'
   
   #types
   
-  yjv.report_rendering.column:
-    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\ColumnType
+  yjv.report_rendering.column_type:
+    class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType
     tags:
-      - { name: 'yjv.column_type' }
+      - { name: yjv.report_rendering.column_type, alias: column }
   
-  yjv.report_rendering.raw_column:
-    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\RawColumnType
+  yjv.report_rendering.raw_column_type:
+    class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType
     tags:
-      - { name: 'yjv.column_type' }
+      - { name: yjv.report_rendering.column_type, alias: raw_column }
   
-  yjv.report_rendering.property_path_column:
-    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\PropertyPathType
+  yjv.report_rendering.property_path_column_type:
+    class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType
     tags:
-      - { name: 'yjv.column_type' }
+      - { name: yjv.report_rendering.column_type, alias: property_path }

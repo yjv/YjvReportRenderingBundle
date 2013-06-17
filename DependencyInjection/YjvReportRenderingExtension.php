@@ -24,6 +24,7 @@ class YjvReportRenderingExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('data_transformers.yml');
         $loader->load('columns.yml');
         $loader->load('renderers.yml');
         $loader->load('reports.yml');

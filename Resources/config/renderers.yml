@@ -2,6 +2,7 @@ services:
     
   yjv.report_rendering.renderer_type_registry_extension:
     class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+    arguments: ['@service_container']
   
   yjv.report_rendering.renderer_type_registry:
     class: Yjv\ReportRendering\Factory\TypeRegistry
@@ -10,7 +11,7 @@ services:
     
   yjv.report_rendering.renderer_type_resolver:
     class: Yjv\ReportRendering\Factory\TypeResolver
-    arguments: ['@yjv.report_rendering.report_type_registry']
+    arguments: ['@yjv.report_rendering.renderer_type_registry']
   
   yjv.report_rendering.renderer_factory:
     class: Yjv\ReportRendering\Renderer\RendererFactory
@@ -19,3 +20,23 @@ services:
       - '@yjv.report_rendering.column_factory'
       
   #types
+  yjv.report_rendering.renderer_type:
+    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType
+    tags:
+      - { name: yjv.report_rendering.renderer_type, alias: renderer}
+  
+  yjv.report_rendering.gridded_type:
+    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType
+    tags:
+      - { name: yjv.report_rendering.renderer_type, alias: gridded }
+  
+  yjv.report_rendering.html_type:
+    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType
+    arguments: ['@yjv.report_rendering.widget_renderer', '@?form.factory']
+    tags:
+      - { name: yjv.report_rendering.renderer_type, alias: html }
+  
+  yjv.report_rendering.csv_type:
+    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType
+    tags:
+      - { name: yjv.report_rendering.renderer_type, alias: csv }

@@ -2,6 +2,7 @@ services:
   
   yjv.report_rendering.report_type_registry_extension:
     class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+    arguments: ['@service_container']
   
   yjv.report_rendering.report_type_registry:
     class: Yjv\ReportRendering\Factory\TypeRegistry
@@ -19,3 +20,7 @@ services:
       - '@yjv.report_rendering.renderer_factory'
       
   #types
+  yjv.report_rendering.report_type:
+    class: Yjv\ReportRendering\Report\Extension\Core\Type\ReportType
+    tags:
+      - { name: yjv.report_rendering.report_type, alias: report }
