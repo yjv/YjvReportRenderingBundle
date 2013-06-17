@@ -1,13 +1,18 @@
+parameters:
+  yjv.report_rendering.widget_renderer.class: Yjv\ReportRendering\Widget\WidgetRenderer
+  yjv.report_rendering.twig_extension.class: Yjv\ReportRendering\Twig\ReportRenderingExtension
+  yjv.report_rendering.data_escaper.class: Yjv\ReportRendering\Data\DataEscaper
+
 services:
   
   yjv.report_rendering.widget_renderer:
-    class: Yjv\ReportRendering\Widget\WidgetRenderer
+    class: %yjv.report_rendering.widget_renderer.class%
     arguments: ['@templating']
     
   yjv.report_rendering.twig_extension:
-    class: Yjv\ReportRendering\Twig\ReportRenderingExtension
+    class: %yjv.report_rendering.twig_extension.class%
     tags:
       - { name: twig.extension }
 
   yjv.report_rendering.data_escaper:
-    class: Yjv\ReportRendering\Data\DataEscaper
+    class: %yjv.report_rendering.data_escaper.class%

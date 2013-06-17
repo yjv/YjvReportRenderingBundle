@@ -1,42 +1,52 @@
+parameters:
+  yjv.report_rendering.renderer_type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  yjv.report_rendering.renderer_type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
+  yjv.report_rendering.renderer_type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
+  yjv.report_rendering.renderer_factory.class: Yjv\ReportRendering\Renderer\RendererFactory
+  yjv.report_rendering.renderer_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType
+  yjv.report_rendering.gridded_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType
+  yjv.report_rendering.html_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType
+  yjv.report_rendering.csv_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType
+
 services:
     
   yjv.report_rendering.renderer_type_registry_extension:
-    class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+    class: %yjv.report_rendering.renderer_type_registry_extension.class%
     arguments: ['@service_container']
   
   yjv.report_rendering.renderer_type_registry:
-    class: Yjv\ReportRendering\Factory\TypeRegistry
+    class: %yjv.report_rendering.renderer_type_registry.class%
     calls:
       - [addExtension, ['@yjv.report_rendering.renderer_type_registry_extension']]
     
   yjv.report_rendering.renderer_type_resolver:
-    class: Yjv\ReportRendering\Factory\TypeResolver
+    class: %yjv.report_rendering.renderer_type_resolver.class%
     arguments: ['@yjv.report_rendering.renderer_type_registry']
   
   yjv.report_rendering.renderer_factory:
-    class: Yjv\ReportRendering\Renderer\RendererFactory
+    class: %yjv.report_rendering.renderer_factory.class%
     arguments: 
       - '@yjv.report_rendering.renderer_type_resolver'
       - '@yjv.report_rendering.column_factory'
       
   #types
   yjv.report_rendering.renderer_type:
-    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType
+    class: %yjv.report_rendering.renderer_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: renderer}
   
   yjv.report_rendering.gridded_type:
-    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType
+    class: %yjv.report_rendering.gridded_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: gridded }
   
   yjv.report_rendering.html_type:
-    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType
+    class: %yjv.report_rendering.html_type.class%
     arguments: ['@yjv.report_rendering.widget_renderer', '@?form.factory']
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: html }
   
   yjv.report_rendering.csv_type:
-    class: Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType
+    class: %yjv.report_rendering.csv_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: csv }

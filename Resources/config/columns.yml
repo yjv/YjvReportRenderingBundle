@@ -1,20 +1,29 @@
+parameters:
+  yjv.report_rendering.column_type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  yjv.report_rendering.column_type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
+  yjv.report_rendering.column_type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
+  yjv.report_rendering.column_factory.class: Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory
+  yjv.report_rendering.column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType
+  yjv.report_rendering.raw_column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType
+  yjv.report_rendering.property_path_column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType
+
 services:
   
   yjv.report_rendering.column_type_registry_extension:
-    class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+    class: %yjv.report_rendering.column_type_registry_extension.class%
     arguments: ['@service_container']
   
   yjv.report_rendering.column_type_registry:
-    class: Yjv\ReportRendering\Factory\TypeRegistry
+    class: %yjv.report_rendering.column_type_registry.class%
     calls:
       - [addExtension, ['@yjv.report_rendering.column_type_registry_extension']]
     
   yjv.report_rendering.column_type_resolver:
-    class: Yjv\ReportRendering\Factory\TypeResolver
+    class: %yjv.report_rendering.column_type_resolver.class%
     arguments: ['@yjv.report_rendering.column_type_registry']
   
   yjv.report_rendering.column_factory:
-    class: Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory
+    class: %yjv.report_rendering.column_factory.class%
     arguments: 
       - '@yjv.report_rendering.column_type_resolver'
       - '@yjv.report_rendering.data_transformer_registry'
@@ -22,16 +31,16 @@ services:
   #types
   
   yjv.report_rendering.column_type:
-    class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType
+    class: %yjv.report_rendering.column_type.class%
     tags:
       - { name: yjv.report_rendering.column_type, alias: column }
   
   yjv.report_rendering.raw_column_type:
-    class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType
+    class: %yjv.report_rendering.raw_column_type.class%
     tags:
       - { name: yjv.report_rendering.column_type, alias: raw_column }
   
   yjv.report_rendering.property_path_column_type:
-    class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType
+    class: %yjv.report_rendering.property_path_column_type.class%
     tags:
       - { name: yjv.report_rendering.column_type, alias: property_path }
