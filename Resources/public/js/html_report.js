@@ -1,0 +1,129 @@
+function ReportFiltering(reportId, dataKey) {
+	
+	self = this;
+	self.reportId = reportId;
+	self.report = jQuery('#'+self.reportId);
+	self.dataKey = dataKey;
+	self.filterUri = window.location.pathname;
+	self.limit = 100;
+	self.offset = 0;
+	self.sortColumn;
+	self.sortDirection = 'asc';
+	self.sortKey = self.dataKey + '[' + self.reportId + '][sort]';
+	self.offsetKey = self.dataKey + '[' + self.reportId + '][offset]';
+	self.filterData = {};
+	
+	self.replaceFilterData = function(filterData, keysToPreserve) {
+		
+		keysToPreserve = keysToPreserve || [];
+		
+		jQuery.each(keysToPreserve, function(index, elem) {
+			
+			if (self.filterData[elem] != undefined) {
+				
+				filterData[elem] = self.filterData[elem];
+			}
+		});
+		
+		self.filterData = filterData;
+	};
+	
+	self.submitFilters = function(event) {
+		
+		self.doSubmitFilters(event);
+	};
+	
+	self.clearFilters = function(event) {
+		
+		self.doClearFilters(event);
+	};
+	
+	self.doClearFilters = function(event) {
+	
+		$this = jQuery(event.target);
+		$form = $this.closest('form');
+		jQuery(':input', $form)
+			.not(':button, :submit, :reset, :hidden')
+			.val('')
+			.removeAttr('checked')
+			.removeAttr('selected')
+		;
+		self.report.find('.submit-filters').click();
+	};
+	
+	self.doSubmitFilters = function(event) {
+	
+		$this = jQuery(event.target);
+		$form = $this.closest('form');
+		
+		newFilterData = {};
+		
+		jQuery.each($form.serializeArray(), function(index, elem) {
+			
+			newFilterData[self.dataKey + '[' + self.reportId + ']' + elem.name.substring(4)] = elem.value;
+		});
+		
+		self.replaceFilterData(newFilterData, [self.sortKey, self.offsetKey]);
+		
+		self.sendFilterData();
+	};
+	
+	self.sendFilterData = function() {
+		
+		jQuery.post(self.filterUri, jQuery.param(self.filterData), function(data) {
+			
+			self.report.find('.report-content').html(jQuery('#'+self.reportId+' .report-content', data).html());
+		});
+	};
+	
+	self.setSort = function(sort) {
+		
+		self.sortDirection = self.sortDirection == 'asc' ? 'desc' : 'asc';
+		self.sortColumn = sort;
+		
+		sort = {};
+		sort[self.sortColumn] = self.sortDirection;
+		
+		self.filterData[self.sortKey] = sort;
+	};
+	
+	self.submitSort = function(event) {
+		
+		self.doSubmitSort(event);
+	};
+	
+	self.doSubmitSort = function(event) {
+		
+		$this = jQuery(event.target).closest('th');
+		self.setSort($this.data('sort-name'));
+		self.sendFilterData();
+	};
+	
+	self.submitPage = function(event) {
+		
+		self.doSubmitPage(event);
+	};
+	
+	self.doSubmitPage = function(event) {
+		
+		$this = jQuery(event.target).closest('li');
+		
+		if ($this.hasClass('disabled') || $this.hasClass('active')) {
+			
+			return;
+		}
+		
+		self.setPage($this.data('page'));
+		self.sendFilterData();
+	};
+	
+	self.setPage = function(page) {
+		
+		self.filterData[self.offsetKey] = self.limit * (page - 1);
+	};
+	
+	self.report.on('click', '.submit-filters', this.submitFilters);
+	self.report.on('click', '.clear-filters', this.clearFilters);
+	self.report.on('click', '.sort-column', this.submitSort);
+	self.report.on('click', '.report-pagination-page', this.submitPage);
+}
