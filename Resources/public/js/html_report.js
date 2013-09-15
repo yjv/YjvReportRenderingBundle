@@ -94,7 +94,7 @@ function ReportFiltering(reportId, dataKey) {
 	
 	self.doSubmitSort = function(event) {
 		
-		$this = jQuery(event.target).closest('th');
+		$this = jQuery(event.target).closest('.sort-column');
 		self.setSort($this.data('sort-name'));
 		self.sendFilterData();
 	};
@@ -106,7 +106,7 @@ function ReportFiltering(reportId, dataKey) {
 	
 	self.doSubmitPage = function(event) {
 		
-		$this = jQuery(event.target).closest('li');
+		$this = jQuery(event.target).closest('.report-pagination-page');
 		
 		if ($this.hasClass('disabled') || $this.hasClass('active')) {
 			
