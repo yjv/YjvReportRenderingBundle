@@ -63,7 +63,7 @@ function ReportFiltering(reportId, dataKey) {
 			newFilterData[self.dataKey + '[' + self.reportId + ']' + elem.name.substring(4)] = elem.value;
 		});
 		
-		self.replaceFilterData(newFilterData, [self.sortKey, self.offsetKey]);
+		self.replaceFilterData(newFilterData, [self.sortKey]);
 		
 		self.sendFilterData();
 	};

@@ -18,11 +18,51 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('yjv_report_rendering');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode = $treeBuilder->root('yjv_report_rendering')
+            ->children()
+                ->arrayNode('id_generator')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('id')
+                            ->defaultValue('yjv.report_rendering.id_generator')
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('filter_values')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('id')
+                            ->defaultValue('yjv.report_rendering.filters')
+                        ->end()
+                        ->scalarNode('session_key')
+                            ->defaultValue('report_filters')
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('filter_values_listeners')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->enumNode('type')
+                                ->cannotBeEmpty()
+                                ->isRequired()
+                                ->values(array(
+                                    'post',
+                                    'endpoint',
+                                    'custom'
+                                ))
+                            ->end()
+                            ->scalarNode('request_matcher_id')->cannotBeEmpty()->end()
+                            ->scalarNode('filter_loader_id')->cannotBeEmpty()->end()
+                            ->scalarNode('response_generator_id')->cannotBeEmpty()->end()
+                            ->scalarNode('filter_data_path')->cannotBeEmpty()->defaultValue('report_filters')->end()
+                            ->scalarNode('path')->cannotBeEmpty()->defaultValue('/report-filters')->end()
+                            ->scalarNode('attribute')->cannotBeEmpty()->defaultValue('request')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

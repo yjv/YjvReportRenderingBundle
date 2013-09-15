@@ -2,6 +2,13 @@ parameters:
   yjv.report_rendering.widget_renderer.class: Yjv\ReportRendering\Widget\WidgetRenderer
   yjv.report_rendering.twig_extension.class: Yjv\ReportRendering\Twig\ReportRenderingExtension
   yjv.report_rendering.data_escaper.class: Yjv\ReportRendering\Data\DataEscaper
+  yjv.report_rendering.filter_values_listener.class: Yjv\Bundle\ReportRenderingBundle\EventListener\FilterValuesListener
+  yjv.report_rendering.parameter_bag_loader.class: Yjv\Bundle\ReportRenderingBundle\Filter\Loader\ParameterBagLoader
+  yjv.report_rendering.request_matcher.class: Symfony\Component\HttpFoundation\RequestMatcher
+  yjv.report_rendering.success_response_generator.class: Yjv\Bundle\ReportRenderingBundle\Filter\ResponseGenerator\SuccessResponseGenerator
+  yjv.report_rendering.id_generator.class: Yjv\ReportRendering\IdGenerator\CallCountIdGenerator
+  yjv.report_rendering.id_generator_prefix_listener.class: Yjv\Bundle\ReportRenderingBundle\EventListener\IdGeneratorPrefixListener
+  yjv.report_rendering.filters.class: Yjv\ReportRendering\Filter\SymfonySessionFilterCollection
 
 services:
   
@@ -16,3 +23,20 @@ services:
 
   yjv.report_rendering.data_escaper:
     class: %yjv.report_rendering.data_escaper.class%
+    
+  yjv.report_rendering.id_generator:
+    class: %yjv.report_rendering.id_generator.class%
+    
+  yjv.report_rendering.id_generator_prefix_listener:
+    class: %yjv.report_rendering.id_generator_prefix_listener.class%
+    arguments: ['@yjv.report_rendering.id_generator']
+    tags:
+      - { name: kernel.event_subscriber }
+    
+  yjv.report_rendering.filters:
+    class: %yjv.report_rendering.filters.class%
+    arguments: ['@session', report_filters]
+      
+  yjv.report_rendering.abstract_filter_values_listener:
+    class: %yjv.report_rendering.filter_values_listener.class%
+    abstract: true

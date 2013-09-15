@@ -4,6 +4,7 @@ parameters:
   yjv.report_rendering.report_type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
   yjv.report_rendering.report_factory.class: Yjv\ReportRendering\Report\ReportFactory
   yjv.report_rendering.report_type.class: Yjv\ReportRendering\Report\Extension\Core\Type\ReportType
+  yjv.report_rendering.default_options_type_extension.class: Yjv\ReportRendering\Factory\Type\Extension\DefaultOptionsTypeExtension
 
 services:
   
@@ -25,6 +26,16 @@ services:
     arguments: 
       - '@yjv.report_rendering.report_type_resolver'
       - '@yjv.report_rendering.renderer_factory'
+      
+  yjv.report_rendering.default_options_type_extension:
+    class: %yjv.report_rendering.default_options_type_extension.class%
+    arguments: 
+      - report
+      - 
+        filters: '@yjv.report_rendering.filters'
+        id_generator: '@yjv.report_rendering.id_generator'
+    tags:
+      - { name: yjv.report_rendering.report_type_extension, alias: report }
       
   #types
   yjv.report_rendering.report_type:
