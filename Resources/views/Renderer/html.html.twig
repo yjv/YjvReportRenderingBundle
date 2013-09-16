@@ -9,10 +9,10 @@
 jQuery(function() {
     window.reportFiltering = new ReportFiltering(
 	    '{{ widget.reportId }}', 
-	    '{{ widget.getOption('data_key', 'report_filters') }}'
+	    '{{ widget.getOption('data_key', 'report_filters') }}',
+	    '{{ widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::LIMIT'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_LIMIT')) }}',
+	    '{{ widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::OFFSET'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_OFFSET')) }}'
     );
-    window.reportFiltering.limit = '{{ widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::LIMIT'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_LIMIT')) }}';
-    window.reportFiltering.offset = '{{ widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::OFFSET'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_OFFSET')) }}';
     {% for key, value in widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::SORT'), {})|slice(0, 1) %}
         window.reportFiltering.sortDirection = '{{ key }}';
         window.reportFiltering.sortColumn = '{{ value }}';

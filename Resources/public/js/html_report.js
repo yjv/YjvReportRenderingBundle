@@ -1,12 +1,12 @@
-function ReportFiltering(reportId, dataKey) {
+function ReportFiltering(reportId, dataKey, limit, offset) {
 	
 	self = this;
 	self.reportId = reportId;
 	self.report = jQuery('#'+self.reportId);
 	self.dataKey = dataKey;
 	self.filterUri = window.location.pathname;
-	self.limit = 100;
-	self.offset = 0;
+	self.limit = limit;
+	self.offset = offset;
 	self.sortColumn;
 	self.sortDirection = 'asc';
 	self.sortKey = self.dataKey + '[' + self.reportId + '][sort]';
@@ -72,7 +72,7 @@ function ReportFiltering(reportId, dataKey) {
 		
 		jQuery.post(self.filterUri, jQuery.param(self.filterData), function(data) {
 			
-			self.report.find('.report-content').html(jQuery('#'+self.reportId+' .report-content', data).html());
+			self.report.find('.report-content').html(jQuery('#' + self.reportId + ' .report-content', data).html());
 		});
 	};
 	
