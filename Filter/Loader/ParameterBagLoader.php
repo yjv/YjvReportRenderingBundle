@@ -24,7 +24,7 @@ class ParameterBagLoader implements LoaderInterface
     {
         $filterData = $request->{$this->attributeName}->get($this->path, array());
         $filterData = $this->normalizeFilterData($filterData, $filters);
-        
+
         foreach ($filterData as $reportId => $filterValues) {
             
             if ($filters instanceof MultiReportFilterCollectionInterface) {
@@ -42,7 +42,7 @@ class ParameterBagLoader implements LoaderInterface
             
             $filterData = array('report_id' => $filterData);
         }
-        
+
         return array_map(function($data) 
         {
             foreach ($data as $key => $value) {
@@ -57,6 +57,8 @@ class ParameterBagLoader implements LoaderInterface
                     $data[$key] = (array)$value;
                 }
             }
+            
+            return $data;
         }, $filterData);
     }
 }
