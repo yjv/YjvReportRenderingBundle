@@ -43,6 +43,7 @@ class YjvReportRenderingExtension extends Extension
             
             $container->setAlias('yjv.report_rendering.filters', $config['filter_values']['id']);
         } else {
+            
             $container
                 ->getDefinition('yjv.report_rendering.filters')
                 ->replaceArgument(1, $config['filter_values']['session_key'])
@@ -86,21 +87,34 @@ class YjvReportRenderingExtension extends Extension
                 $container
                     ->register(
                         $requestMatcherId, 
-                        $container->getParameter('yjv.report_rendering.request_matcher.class')
+                        $container->getParameter('yjv.report_rendering.route_found_request_matcher.class')
                     )
-                    ->setArguments(array($listenerConfig['path'], null, array('POST')))
                 ;
                 $container
                     ->register(
                         $filterLoaderId, 
                         $container->getParameter('yjv.report_rendering.parameter_bag_loader.class')
                     )
-                    ->setArguments(array($listenerConfig['attribute'], $listenerConfig['filter_data_path']))
+                    ->setArguments(array(
+                        $listenerConfig['attribute'], 
+                        $listenerConfig['filter_data_path']
+                    ))
                 ;
                 $container->register(
                     $responseGeneratorId, 
                     $container->getParameter('yjv.report_rendering.success_response_generator.class')
                 );
+                $container
+                    ->register(
+                        'yjv.report_rendering.filter_uri_defaulter',
+                        $container->getParameter('yjv.report_rendering.default_options_type_extension.class')
+                    )
+                    ->setArguments(array(
+                        'html',
+                        array('filter_uri' => $listenerConfig['path'])
+                    ))
+                    ->addTag('yjv.report_rendering.renderer_type_extension', array('alias' => 'html'))
+                ;
                 break;
             case 'custom':
             default:
