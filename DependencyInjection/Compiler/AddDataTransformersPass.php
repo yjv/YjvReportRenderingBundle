@@ -1,6 +1,5 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\DependencyInjection\Compiler;
-use Symfony\Component\DependencyInjection\Definition;
 
 use Symfony\Component\DependencyInjection\Reference;
 
