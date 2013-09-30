@@ -56,8 +56,27 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('filter_loader_id')->cannotBeEmpty()->end()
                             ->scalarNode('response_generator_id')->cannotBeEmpty()->end()
                             ->scalarNode('filter_data_path')->cannotBeEmpty()->defaultValue('report_filters')->end()
-                            ->scalarNode('path')->cannotBeEmpty()->defaultValue('/report-filters')->end()
-                            ->scalarNode('attribute')->cannotBeEmpty()->defaultValue('request')->end()
+                            ->scalarNode('route')->cannotBeEmpty()->defaultValue('report_filters')->end()
+                            ->arrayNode('route_params')
+                                ->cannotBeEmpty()
+                                ->defaultValue(array())
+                                ->useAttributeAsKey()
+                                ->prototype('variable')
+                                ->end()
+                            ->end()
+                            ->enumNode('attribute')
+                                ->cannotBeEmpty()
+                                ->defaultValue('request')
+                                ->values(array(
+                                    'request',
+                                    'query',
+                                    'attributes',
+                                    'cookies',
+                                    'files',
+                                    'server',
+                                    'headers'
+                                ))
+                            ->end()
                         ->end()
                     ->end()
                 ->end()

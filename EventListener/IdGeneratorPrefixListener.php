@@ -24,6 +24,6 @@ class IdGeneratorPrefixListener implements EventSubscriberInterface
     
     public function onKernelRequest(KernelEvent $event)
     {
-        $this->idGenerator->setPrefix($event->getRequest()->getPathInfo());
+        $this->idGenerator->setPrefix($event->getRequest()->getHost() . $event->getRequest()->getPathInfo());
     }
 }

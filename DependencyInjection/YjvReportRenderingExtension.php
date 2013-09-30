@@ -89,6 +89,7 @@ class YjvReportRenderingExtension extends Extension
                         $requestMatcherId, 
                         $container->getParameter('yjv.report_rendering.route_found_request_matcher.class')
                     )
+                    ->setArguments(array($listenerConfig['route']))
                 ;
                 $container
                     ->register(
@@ -106,12 +107,12 @@ class YjvReportRenderingExtension extends Extension
                 );
                 $container
                     ->register(
-                        'yjv.report_rendering.filter_uri_defaulter',
+                        'yjv.report_rendering.filter_route_defaulter',
                         $container->getParameter('yjv.report_rendering.default_options_type_extension.class')
                     )
                     ->setArguments(array(
                         'html',
-                        array('filter_uri' => $listenerConfig['path'])
+                        array('filter_route' => $listenerConfig['route'])
                     ))
                     ->addTag('yjv.report_rendering.renderer_type_extension', array('alias' => 'html'))
                 ;

@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRenderingBundle\Renderer\Extension\Symfony\Type\Extension;
+namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Extension\Symfony\Type\Extension;
 
 use Symfony\Component\OptionsResolver\Options;
 

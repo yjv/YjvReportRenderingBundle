@@ -51,10 +51,7 @@ class FilterValuesListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(KernelEvents::REQUEST => array(
-            array('onKernelRequest', 40),
-            array('onKernelLateRequest', 0),
-        ));
+        return array(KernelEvents::REQUEST => 'onKernelRequest');
     }
     
     public function onKernelRequest(GetResponseEvent $event)
@@ -63,22 +60,12 @@ class FilterValuesListener implements EventSubscriberInterface
 
         if ($this->requestMatcher->matches($request)) {
 
-            $request->attributes->set(self::REQUEST_ATTRIBUTE_NAME, true);
+            $this->loader->load($this->filters, $request);
 
             if ($this->responseGenerator) {
                 
                 $request->attributes->set('_controller', array($this, 'getResponse'));
             }
-        }
-    }
-    
-    public function onKernelLateRequest(GetResponseEvent $event)
-    {
-        $request = $event->getRequest();
-        
-        if ($request->attributes->get(self::REQUEST_ATTRIBUTE_NAME, false)) {
-
-            $this->loader->load($this->filters, $request);
         }
     }
     

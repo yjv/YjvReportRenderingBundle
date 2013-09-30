@@ -7,6 +7,7 @@ parameters:
   yjv.report_rendering.gridded_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType
   yjv.report_rendering.html_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType
   yjv.report_rendering.csv_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType
+  yjv.report_rendering.add_filter_route_type_extension.class: Yjv\Bundle\ReportRenderingBundle\Renderer\Extension\Symfony\Type\Extension\AddFilterRouteTypeExtension
 
 services:
     
@@ -50,3 +51,10 @@ services:
     class: %yjv.report_rendering.csv_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: csv }
+      
+  yjv.report_rendering.add_filter_route_type_extension:
+    class: %yjv.report_rendering.add_filter_route_type_extension.class%
+    arguments: ['@router']
+    tags:
+      - { name: yjv.report_rendering.renderer_type_extension, alias: html }
+      

@@ -9,6 +9,8 @@ parameters:
   yjv.report_rendering.id_generator.class: Yjv\ReportRendering\IdGenerator\CallCountIdGenerator
   yjv.report_rendering.id_generator_prefix_listener.class: Yjv\Bundle\ReportRenderingBundle\EventListener\IdGeneratorPrefixListener
   yjv.report_rendering.filters.class: Yjv\ReportRendering\Filter\SymfonySessionFilterCollection
+  yjv.report_rendering.default_options_type_extension.class: Yjv\ReportRendering\Factory\Type\Extension\DefaultOptionsTypeExtension
+  yjv.report_rendering.route_found_request_matcher.class: Yjv\Bundle\ReportRenderingBundle\Matcher\RouteFoundRequestMatcher
 
 services:
   

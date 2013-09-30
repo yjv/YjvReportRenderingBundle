@@ -11,13 +11,20 @@ class RouteFoundRequestMatcherTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->matcher = new RouteFoundRequestMatcher();
+        $this->matcher = new RouteFoundRequestMatcher('fsfs');
+    }
+    
+    public function testMatchesWhereRouteIsWrong()
+    {
+        $request = new Request();
+        $this->assertFalse($this->matcher->matches($request));
+        $request->attributes->set('_route', 'cxz');
+        $this->assertFalse($this->matcher->matches($request));
     }
     
     public function testMatches()
     {
         $request = new Request();
-        $this->assertFalse($this->matcher->matches($request));
         $request->attributes->set('_route', 'fsfs');
         $this->assertTrue($this->matcher->matches($request));
     }

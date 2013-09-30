@@ -70,10 +70,23 @@ function ReportFiltering(reportId, dataKey, limit, offset) {
 	
 	self.sendFilterData = function() {
 		
-		jQuery.post(self.filterUri, jQuery.param(self.filterData), function(data) {
+		callback = function(data) {
 			
 			self.report.find('.report-content').html(jQuery('#' + self.reportId + ' .report-content', data).html());
-		});
+		};
+		
+		if (self.filterUri != window.location.pathname) {
+			
+			outerCallback = function() {
+				
+				jQuery.get(window.location.pathname, [], callback);
+			};
+		} else {
+			
+			outerCallback = callback;
+		}
+		
+		jQuery.post(self.filterUri, jQuery.param(self.filterData), outerCallback);
 	};
 	
 	self.setSort = function(sort) {
