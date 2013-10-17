@@ -1,38 +1,38 @@
 parameters:
-  yjv.report_rendering.data_transformer_registry.class: Yjv\ReportRendering\DataTransformer\DataTransformerRegistry
-  yjv.report_rendering.date_time_transformer.class: Yjv\ReportRendering\DataTransformer\DateTimeTransformer
-  yjv.report_rendering.escape_paths_transformer.class: Yjv\ReportRendering\DataTransformer\EscapePathsTransformer
-  yjv.report_rendering.format_string_transformer.class: Yjv\ReportRendering\DataTransformer\FormatStringTransformer
-  yjv.report_rendering.mapped_datae_transformer.class: Yjv\ReportRendering\DataTransformer\MappedDataTransformer
-  yjv.report_rendering.property_path_transformer.class: Yjv\ReportRendering\DataTransformer\PropertyPathTransformer
+  yjv.report_rendering.data_transformer.registry.class: Yjv\ReportRendering\DataTransformer\DataTransformerRegistry
+  yjv.report_rendering.data_transformer.date_time_transformer.class: Yjv\ReportRendering\DataTransformer\DateTimeTransformer
+  yjv.report_rendering.data_transformer.escape_paths_transformer.class: Yjv\ReportRendering\DataTransformer\EscapePathsTransformer
+  yjv.report_rendering.data_transformer.format_string_transformer.class: Yjv\ReportRendering\DataTransformer\FormatStringTransformer
+  yjv.report_rendering.data_transformer.mapped_datae_transformer.class: Yjv\ReportRendering\DataTransformer\MappedDataTransformer
+  yjv.report_rendering.data_transformer.property_path_transformer.class: Yjv\ReportRendering\DataTransformer\PropertyPathTransformer
 
 services:
   
-  yjv.report_rendering.data_transformer_registry:
-    class: %yjv.report_rendering.data_transformer_registry.class%
+  yjv.report_rendering.data_transformer.registry:
+    class: %yjv.report_rendering.data_transformer.registry.class%
     
-  yjv.report_rendering.date_time_transformer:
-    class: %yjv.report_rendering.date_time_transformer.class%
+  yjv.report_rendering.data_transformer.date_time_transformer:
+    class: %yjv.report_rendering.data_transformer.date_time_transformer.class%
     tags:
       - { name: yjv.report_rendering.data_transformer, alias: date_time }
   
-  yjv.report_rendering.escape_paths_transformer:
-    class: %yjv.report_rendering.escape_paths_transformer.class%
+  yjv.report_rendering.data_transformer.escape_paths_transformer:
+    class: %yjv.report_rendering.data_transformer.escape_paths_transformer.class%
     arguments: ['@yjv.report_rendering.data_escaper']
     tags:
       - { name: yjv.report_rendering.data_transformer, alias: escape_paths }
   
-  yjv.report_rendering.format_string_transformer:
-    class: %yjv.report_rendering.format_string_transformer.class%
+  yjv.report_rendering.data_transformer.format_string_transformer:
+    class: %yjv.report_rendering.data_transformer.format_string_transformer.class%
     tags:
       - { name: yjv.report_rendering.data_transformer, alias: format_string }
   
-  yjv.report_rendering.mapped_datae_transformer:
-    class: %yjv.report_rendering.mapped_datae_transformer.class%
+  yjv.report_rendering.data_transformer.mapped_datae_transformer:
+    class: %yjv.report_rendering.data_transformer.mapped_datae_transformer.class%
     tags:
       - { name: yjv.report_rendering.data_transformer, alias: mapped_data }
   
-  yjv.report_rendering.property_path_transformer:
-    class: %yjv.report_rendering.property_path_transformer.class%
+  yjv.report_rendering.data_transformer.property_path_transformer:
+    class: %yjv.report_rendering.data_transformer.property_path_transformer.class%
     tags:
       - { name: yjv.report_rendering.data_transformer, alias: property_path }

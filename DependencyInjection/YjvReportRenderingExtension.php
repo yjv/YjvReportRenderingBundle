@@ -30,6 +30,7 @@ class YjvReportRenderingExtension extends Extension
         $loader->load('services.yml');
         $loader->load('data_transformers.yml');
         $loader->load('columns.yml');
+        $loader->load('datasources.yml');
         $loader->load('renderers.yml');
         $loader->load('reports.yml');
         

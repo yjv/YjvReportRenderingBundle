@@ -15,19 +15,23 @@ class YjvReportRenderingBundle extends Bundle
 	public function build(ContainerBuilder $container) {
 
 		$container->addCompilerPass(new AddTypesPass(array(
-	        'yjv.report_rendering.column_type_registry_extension' => array(
+	        'yjv.report_rendering.column.type_registry_extension' => array(
                 'yjv.report_rendering.column_type',
                 'yjv.report_rendering.column_type_extension',
             ),
-	        'yjv.report_rendering.renderer_type_registry_extension' => array(
+	        'yjv.report_rendering.renderer.type_registry_extension' => array(
                 'yjv.report_rendering.renderer_type',
                 'yjv.report_rendering.renderer_type_extension',
             ),
-	        'yjv.report_rendering.report_type_registry_extension' => array(
+	        'yjv.report_rendering.report.type_registry_extension' => array(
                 'yjv.report_rendering.report_type',
                 'yjv.report_rendering.report_type_extension',
             ),
-        )));
+	        'yjv.report_rendering.datasource.type_registry_extension' => array(
+                'yjv.report_rendering.datasource_type',
+                'yjv.report_rendering.datasource_type_extension',
+            ),
+		)));
 		$container->addCompilerPass(new AddDataTransformersPass());
 	}
 

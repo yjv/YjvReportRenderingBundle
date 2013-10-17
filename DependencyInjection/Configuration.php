@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
                             ->arrayNode('route_params')
                                 ->cannotBeEmpty()
                                 ->defaultValue(array())
-                                ->useAttributeAsKey()
+                                ->useAttributeAsKey('name')
                                 ->prototype('variable')
                                 ->end()
                             ->end()

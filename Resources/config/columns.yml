@@ -1,46 +1,46 @@
 parameters:
-  yjv.report_rendering.column_type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
-  yjv.report_rendering.column_type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
-  yjv.report_rendering.column_type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
-  yjv.report_rendering.column_factory.class: Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory
-  yjv.report_rendering.column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType
-  yjv.report_rendering.raw_column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType
-  yjv.report_rendering.property_path_column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType
+  yjv.report_rendering.column.type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  yjv.report_rendering.column.type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
+  yjv.report_rendering.column.type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
+  yjv.report_rendering.column.factory.class: Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory
+  yjv.report_rendering.column.column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType
+  yjv.report_rendering.column.raw_column_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType
+  yjv.report_rendering.column.property_path_type.class: Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType
 
 services:
   
-  yjv.report_rendering.column_type_registry_extension:
-    class: %yjv.report_rendering.column_type_registry_extension.class%
+  yjv.report_rendering.column.type_registry_extension:
+    class: %yjv.report_rendering.column.type_registry_extension.class%
     arguments: ['@service_container']
   
-  yjv.report_rendering.column_type_registry:
-    class: %yjv.report_rendering.column_type_registry.class%
+  yjv.report_rendering.column.type_registry:
+    class: %yjv.report_rendering.column.type_registry.class%
     calls:
-      - [addExtension, ['@yjv.report_rendering.column_type_registry_extension']]
+      - [addExtension, ['@yjv.report_rendering.column.type_registry_extension']]
     
-  yjv.report_rendering.column_type_resolver:
-    class: %yjv.report_rendering.column_type_resolver.class%
-    arguments: ['@yjv.report_rendering.column_type_registry']
+  yjv.report_rendering.column.type_resolver:
+    class: %yjv.report_rendering.column.type_resolver.class%
+    arguments: ['@yjv.report_rendering.column.type_registry']
   
-  yjv.report_rendering.column_factory:
-    class: %yjv.report_rendering.column_factory.class%
+  yjv.report_rendering.column.factory:
+    class: %yjv.report_rendering.column.factory.class%
     arguments: 
-      - '@yjv.report_rendering.column_type_resolver'
-      - '@yjv.report_rendering.data_transformer_registry'
+      - '@yjv.report_rendering.column.type_resolver'
+      - '@yjv.report_rendering.data_transformer.registry'
   
   #types
   
-  yjv.report_rendering.column_type:
-    class: %yjv.report_rendering.column_type.class%
+  yjv.report_rendering.column.column_type:
+    class: %yjv.report_rendering.column.column_type.class%
     tags:
       - { name: yjv.report_rendering.column_type, alias: column }
   
-  yjv.report_rendering.raw_column_type:
-    class: %yjv.report_rendering.raw_column_type.class%
+  yjv.report_rendering.column.raw_column_type:
+    class: %yjv.report_rendering.column.raw_column_type.class%
     tags:
       - { name: yjv.report_rendering.column_type, alias: raw_column }
   
-  yjv.report_rendering.property_path_column_type:
-    class: %yjv.report_rendering.property_path_column_type.class%
+  yjv.report_rendering.column.property_path_type:
+    class: %yjv.report_rendering.column.property_path_type.class%
     tags:
       - { name: yjv.report_rendering.column_type, alias: property_path }

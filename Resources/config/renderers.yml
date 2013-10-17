@@ -1,59 +1,59 @@
 parameters:
-  yjv.report_rendering.renderer_type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
-  yjv.report_rendering.renderer_type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
-  yjv.report_rendering.renderer_type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
-  yjv.report_rendering.renderer_factory.class: Yjv\ReportRendering\Renderer\RendererFactory
-  yjv.report_rendering.renderer_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType
-  yjv.report_rendering.gridded_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType
-  yjv.report_rendering.html_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType
-  yjv.report_rendering.csv_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType
-  yjv.report_rendering.add_filter_route_type_extension.class: Yjv\Bundle\ReportRenderingBundle\Renderer\Extension\Symfony\Type\Extension\AddFilterRouteTypeExtension
+  yjv.report_rendering.renderer.type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  yjv.report_rendering.renderer.type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
+  yjv.report_rendering.renderer.type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
+  yjv.report_rendering.renderer.factory.class: Yjv\ReportRendering\Renderer\RendererFactory
+  yjv.report_rendering.renderer.renderer_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType
+  yjv.report_rendering.renderer.gridded_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType
+  yjv.report_rendering.renderer.html_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType
+  yjv.report_rendering.renderer.csv_type.class: Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType
+  yjv.report_rendering.renderer.add_filter_route_type_extension.class: Yjv\Bundle\ReportRenderingBundle\Renderer\Extension\Symfony\Type\Extension\AddFilterRouteTypeExtension
 
 services:
     
-  yjv.report_rendering.renderer_type_registry_extension:
-    class: %yjv.report_rendering.renderer_type_registry_extension.class%
+  yjv.report_rendering.renderer.type_registry_extension:
+    class: %yjv.report_rendering.renderer.type_registry_extension.class%
     arguments: ['@service_container']
   
-  yjv.report_rendering.renderer_type_registry:
-    class: %yjv.report_rendering.renderer_type_registry.class%
+  yjv.report_rendering.renderer.type_registry:
+    class: %yjv.report_rendering.renderer.type_registry.class%
     calls:
-      - [addExtension, ['@yjv.report_rendering.renderer_type_registry_extension']]
+      - [addExtension, ['@yjv.report_rendering.renderer.type_registry_extension']]
     
-  yjv.report_rendering.renderer_type_resolver:
-    class: %yjv.report_rendering.renderer_type_resolver.class%
-    arguments: ['@yjv.report_rendering.renderer_type_registry']
+  yjv.report_rendering.renderer.type_resolver:
+    class: %yjv.report_rendering.renderer.type_resolver.class%
+    arguments: ['@yjv.report_rendering.renderer.type_registry']
   
-  yjv.report_rendering.renderer_factory:
-    class: %yjv.report_rendering.renderer_factory.class%
+  yjv.report_rendering.renderer.factory:
+    class: %yjv.report_rendering.renderer.factory.class%
     arguments: 
-      - '@yjv.report_rendering.renderer_type_resolver'
-      - '@yjv.report_rendering.column_factory'
+      - '@yjv.report_rendering.renderer.type_resolver'
+      - '@yjv.report_rendering.column.factory'
       
   #types
-  yjv.report_rendering.renderer_type:
-    class: %yjv.report_rendering.renderer_type.class%
+  yjv.report_rendering.renderer.renderer_type:
+    class: %yjv.report_rendering.renderer.renderer_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: renderer}
   
-  yjv.report_rendering.gridded_type:
-    class: %yjv.report_rendering.gridded_type.class%
+  yjv.report_rendering.renderer.gridded_type:
+    class: %yjv.report_rendering.renderer.gridded_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: gridded }
   
-  yjv.report_rendering.html_type:
-    class: %yjv.report_rendering.html_type.class%
+  yjv.report_rendering.renderer.html_type:
+    class: %yjv.report_rendering.renderer.html_type.class%
     arguments: ['@yjv.report_rendering.widget_renderer', '@?form.factory']
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: html }
   
-  yjv.report_rendering.csv_type:
-    class: %yjv.report_rendering.csv_type.class%
+  yjv.report_rendering.renderer.csv_type:
+    class: %yjv.report_rendering.renderer.csv_type.class%
     tags:
       - { name: yjv.report_rendering.renderer_type, alias: csv }
       
-  yjv.report_rendering.add_filter_route_type_extension:
-    class: %yjv.report_rendering.add_filter_route_type_extension.class%
+  yjv.report_rendering.renderer.add_filter_route_type_extension:
+    class: %yjv.report_rendering.renderer.add_filter_route_type_extension.class%
     arguments: ['@router']
     tags:
       - { name: yjv.report_rendering.renderer_type_extension, alias: html }

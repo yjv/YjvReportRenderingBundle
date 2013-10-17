@@ -1,0 +1,45 @@
+parameters:
+  yjv.report_rendering.datasource.type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  yjv.report_rendering.datasource.type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
+  yjv.report_rendering.datasource.type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
+  yjv.report_rendering.datasource.factory.class: Yjv\ReportRendering\Datasource\DatasourceFactory
+  yjv.report_rendering.datasource.datasource_type.class: Yjv\ReportRendering\Datasource\Extension\Core\Type\DatasourceType
+  yjv.report_rendering.datasource.callback_type.class: Yjv\ReportRendering\Datasource\Extension\Core\Type\CallbackType
+  yjv.report_rendering.datasource.array_type.class: Yjv\ReportRendering\Datasource\Extension\Core\Type\ArrayType
+
+services:
+  
+  yjv.report_rendering.datasource.type_registry_extension:
+    class: %yjv.report_rendering.datasource.type_registry_extension.class%
+    arguments: ['@service_container']
+  
+  yjv.report_rendering.datasource.type_registry:
+    class: %yjv.report_rendering.datasource.type_registry.class%
+    calls:
+      - [addExtension, ['@yjv.report_rendering.datasource.type_registry_extension']]
+    
+  yjv.report_rendering.datasource.type_resolver:
+    class: %yjv.report_rendering.datasource.type_resolver.class%
+    arguments: ['@yjv.report_rendering.datasource.type_registry']
+  
+  yjv.report_rendering.datasource.factory:
+    class: %yjv.report_rendering.datasource.factory.class%
+    arguments: 
+      - '@yjv.report_rendering.datasource.type_resolver'
+      
+  #types
+  yjv.report_rendering.datasource.datasource_type:
+    class: %yjv.report_rendering.datasource.datasource_type.class%
+    tags:
+      - { name: yjv.report_rendering.datasource_type, alias: datasource }
+  
+  yjv.report_rendering.datasource.callback_type:
+    class: %yjv.report_rendering.datasource.callback_type.class%
+    tags:
+      - { name: yjv.report_rendering.datasource_type, alias: callback }
+  
+  yjv.report_rendering.datasource.array_type:
+    class: %yjv.report_rendering.datasource.array_type.class%
+    tags:
+      - { name: yjv.report_rendering.datasource_type, alias: array }
+ 

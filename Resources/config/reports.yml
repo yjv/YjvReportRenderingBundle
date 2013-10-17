@@ -1,34 +1,35 @@
 parameters:
-  yjv.report_rendering.report_type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
-  yjv.report_rendering.report_type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
-  yjv.report_rendering.report_type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
-  yjv.report_rendering.report_factory.class: Yjv\ReportRendering\Report\ReportFactory
-  yjv.report_rendering.report_type.class: Yjv\ReportRendering\Report\Extension\Core\Type\ReportType
-  yjv.report_rendering.default_options_type_extension.class: Yjv\ReportRendering\Factory\Type\Extension\DefaultOptionsTypeExtension
+  yjv.report_rendering.report.type_registry_extension.class: Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension
+  yjv.report_rendering.report.type_registry.class: Yjv\ReportRendering\Factory\TypeRegistry
+  yjv.report_rendering.report.type_resolver.class: Yjv\ReportRendering\Factory\TypeResolver
+  yjv.report_rendering.report.factory.class: Yjv\ReportRendering\Report\ReportFactory
+  yjv.report_rendering.report.report_type.class: Yjv\ReportRendering\Report\Extension\Core\Type\ReportType
+  yjv.report_rendering.report.default_options_type_extension.class: Yjv\ReportRendering\Factory\Type\Extension\DefaultOptionsTypeExtension
 
 services:
   
-  yjv.report_rendering.report_type_registry_extension:
-    class: %yjv.report_rendering.report_type_registry_extension.class%
+  yjv.report_rendering.report.type_registry_extension:
+    class: %yjv.report_rendering.report.type_registry_extension.class%
     arguments: ['@service_container']
   
-  yjv.report_rendering.report_type_registry:
-    class: %yjv.report_rendering.report_type_registry.class%
+  yjv.report_rendering.report.type_registry:
+    class: %yjv.report_rendering.report.type_registry.class%
     calls:
-      - [addExtension, ['@yjv.report_rendering.report_type_registry_extension']]
+      - [addExtension, ['@yjv.report_rendering.report.type_registry_extension']]
     
-  yjv.report_rendering.report_type_resolver:
-    class: %yjv.report_rendering.report_type_resolver.class%
-    arguments: ['@yjv.report_rendering.report_type_registry']
+  yjv.report_rendering.report.type_resolver:
+    class: %yjv.report_rendering.report.type_resolver.class%
+    arguments: ['@yjv.report_rendering.report.type_registry']
   
-  yjv.report_rendering.report_factory:
-    class: %yjv.report_rendering.report_factory.class%
+  yjv.report_rendering.report.factory:
+    class: %yjv.report_rendering.report.factory.class%
     arguments: 
-      - '@yjv.report_rendering.report_type_resolver'
-      - '@yjv.report_rendering.renderer_factory'
+      - '@yjv.report_rendering.report.type_resolver'
+      - '@yjv.report_rendering.datasource.factory'
+      - '@yjv.report_rendering.renderer.factory'
       
-  yjv.report_rendering.default_options_type_extension:
-    class: %yjv.report_rendering.default_options_type_extension.class%
+  yjv.report_rendering.report.default_options_type_extension:
+    class: %yjv.report_rendering.report.default_options_type_extension.class%
     arguments: 
       - report
       - 
@@ -38,7 +39,7 @@ services:
       - { name: yjv.report_rendering.report_type_extension, alias: report }
       
   #types
-  yjv.report_rendering.report_type:
-    class: %yjv.report_rendering.report_type.class%
+  yjv.report_rendering.report.report_type:
+    class: %yjv.report_rendering.report.report_type.class%
     tags:
       - { name: yjv.report_rendering.report_type, alias: report }
