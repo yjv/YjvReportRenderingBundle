@@ -1,6 +1,7 @@
 {
 	"name": "yjv/report-rendering-bundle",
 	"description": "bundle with classes that allow easy rendering of report data",
+	"license": "MIT",
 	"require": {
 	    
 	    "php": ">=5.3.0",
