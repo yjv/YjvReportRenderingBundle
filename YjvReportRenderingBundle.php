@@ -14,7 +14,10 @@ class YjvReportRenderingBundle extends Bundle
 {
 	public function build(ContainerBuilder $container) {
 
-		$container->addCompilerPass(new AddTypesPass(array(
+		$reportRenderingReflector = new \ReflectionClass('Yjv\ReportRendering\ReportRendering');
+		$container->setParameter('yjv_report_rendering_dir', dirname($reportRenderingReflector->getFileName()));
+	    
+	    $container->addCompilerPass(new AddTypesPass(array(
 	        'yjv.report_rendering.column.type_registry_extension' => array(
                 'yjv.report_rendering.column_type',
                 'yjv.report_rendering.column_type_extension',
